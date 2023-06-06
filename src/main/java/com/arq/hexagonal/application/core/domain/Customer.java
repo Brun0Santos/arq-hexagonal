@@ -30,6 +30,10 @@ public class Customer {
         return address;
     }
 
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public String getCpf() {
         return cpf;
     }
