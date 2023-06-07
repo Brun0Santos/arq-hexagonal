@@ -3,10 +3,11 @@ package com.arq.hexagonal.application.core.usecase;
 import com.arq.hexagonal.application.core.domain.Address;
 import com.arq.hexagonal.application.core.domain.Customer;
 import com.arq.hexagonal.application.ports.in.FindCustomerByIdInputPort;
+import com.arq.hexagonal.application.ports.in.UpdateCustomerInputPort;
 import com.arq.hexagonal.application.ports.out.FindAddressByZipCodeOutputPort;
 import com.arq.hexagonal.application.ports.out.UpdateCustomerOutputPort;
 
-public class UpdateCustomerUseCase {
+public class UpdateCustomerUseCase implements UpdateCustomerInputPort {
 
     private final FindCustomerByIdInputPort findCustomerByIdInputPort;
 
@@ -21,6 +22,7 @@ public class UpdateCustomerUseCase {
         this.updateCustomerOutputPort = updateCustomerOutputPort;
     }
 
+    @Override
     public void update(Customer customer, String zipCode) {
         this.findCustomerByIdInputPort.find(customer.getId());
         Address address = this.findAddressByZipCodeOutputPort.find(zipCode);
