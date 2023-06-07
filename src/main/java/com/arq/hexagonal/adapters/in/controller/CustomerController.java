@@ -3,6 +3,7 @@ package com.arq.hexagonal.adapters.in.controller;
 import com.arq.hexagonal.adapters.in.controller.request.CustomerRequest;
 import com.arq.hexagonal.adapters.in.controller.response.CustomerResponse;
 import com.arq.hexagonal.application.core.domain.Customer;
+import com.arq.hexagonal.application.ports.in.DeleteCustomerByIdInputPort;
 import com.arq.hexagonal.application.ports.in.FindCustomerByIdInputPort;
 import com.arq.hexagonal.application.ports.in.InsertCustomerInputPort;
 import com.arq.hexagonal.application.ports.in.UpdateCustomerInputPort;
@@ -27,6 +28,9 @@ public class CustomerController {
     @Autowired
     private UpdateCustomerInputPort updateCustomerInputPort;
 
+    @Autowired
+    private DeleteCustomerByIdInputPort deleteCustomerByIdInputPort;
+
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody @Valid CustomerRequest customerRequest) {
         Customer customer = modelMapper.map(customerRequest, Customer.class);
@@ -48,5 +52,11 @@ public class CustomerController {
         customer.setId(id);
         updateCustomerInputPort.update(customer, customerRequest.getZipcode());
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        deleteCustomerByIdInputPort.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
